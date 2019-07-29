@@ -42,9 +42,16 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.tsx" />
+    <TypeScriptCompile Include="model\UpcInv.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="model\UpcItem.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="dist\" />
+    <Folder Include="model\" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsToolsV2.targets" />
   <ProjectExtensions>
