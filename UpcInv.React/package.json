@@ -1,17 +1,32 @@
 {
-  "name": "upc-inv.react",
-  "version": "0.0.0",
-  "description": "UpcInv.React",
-  "main": "server.js",
-  "author": {
-    "name": ""
-  },
-  "scripts": {
-    "build": "tsc --build",
-    "clean": "tsc --build --clean"
-  },
-  "devDependencies": {
-    "@types/node": "^8.0.14",
-    "typescript": "^3.2.2"
-  }
+    "name": "upc-inv.react",
+    "version": "0.0.0",
+    "description": "UpcInv.React",
+    "main": "server.js",
+    "author": {
+        "name": ""
+    },
+    "scripts": {
+        "buildtsc": "tsc --build",
+        "clean": "tsc --build --clean",
+        "build": "tsc --build && webpack-cli app.tsx --config webpack-config.js"
+    },
+    "devDependencies": {
+        "@types/node": "^8.9.4",
+        "typescript": "^3.5.3"
+    },
+    "dependencies": {
+        "babel-preset-react": "^6.24.1",
+        "express": "~4.16.4",
+        "path": "~0.12.7",
+        "react": "~16.8.3",
+        "react-dev-utils": "^9.0.1",
+        "react-dom": "~16.6.0",
+        "react-error-overlay": "^5.1.6",
+        "react-redux": "^7.1.0",
+        "redux": "^4.0.4",
+        "ts-loader": "~5.3.0",
+        "webpack": "~4.23.1",
+        "webpack-cli": "~3.1.2"
+    }
 }
