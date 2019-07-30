@@ -99,13 +99,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const UpcMain_1 = __webpack_require__(/*! ./components/UpcMain */ "./components/UpcMain.tsx");
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-class Inner extends React.Component {
-    render() {
-        return (React.createElement("span", { style: { "font-weight": "bold" } }, "This is an inline react test string"));
-    }
-}
-exports.Inner = Inner;
-ReactDOM.render(React.createElement(UpcMain_1.UpcMain, { Items: null }), document.getElementById('root'));
+ReactDOM.render(React.createElement(UpcMain_1.UpcMain, null), document.getElementById('root'));
 
 
 /***/ }),

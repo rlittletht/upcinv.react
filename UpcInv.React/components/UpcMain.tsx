@@ -16,7 +16,7 @@ export class UpcMainHeader extends React.Component {
 
 export interface UpcMainProps
 {
-    Items: UpcInvModel.UpcInvMain;
+    // no props for now...
 }
 
 export class UpcMain extends React.Component<UpcMainProps>
