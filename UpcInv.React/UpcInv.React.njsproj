@@ -45,6 +45,9 @@
     <TypeScriptCompile Include="components\UpcItem.tsx">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="components\UpcMain.tsx">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="model\UpcInv.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>

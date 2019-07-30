@@ -95,6 +95,63 @@
 
 "use strict";
 
+Object.defineProperty(exports, "__esModule", { value: true });
+const UpcMain_1 = __webpack_require__(/*! ./components/UpcMain */ "./components/UpcMain.tsx");
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+class Inner extends React.Component {
+    render() {
+        return (React.createElement("span", { style: { "font-weight": "bold" } }, "This is an inline react test string"));
+    }
+}
+exports.Inner = Inner;
+ReactDOM.render(React.createElement(UpcMain_1.UpcMain, { Items: null }), document.getElementById('root'));
+
+
+/***/ }),
+
+/***/ "./components/UpcItem.tsx":
+/*!********************************!*\
+  !*** ./components/UpcItem.tsx ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var UpcItemView;
+(function (UpcItemView) {
+    class Item extends React.Component {
+        constructor(props) {
+            super(props);
+        }
+        render() {
+            return (React.createElement("div", null,
+                "Item ID: ",
+                this.props.ID,
+                " ",
+                React.createElement("br", null),
+                "Item Title: ",
+                this.props.Title));
+        }
+    }
+    UpcItemView.Item = Item;
+})(UpcItemView = exports.UpcItemView || (exports.UpcItemView = {}));
+
+
+/***/ }),
+
+/***/ "./components/UpcMain.tsx":
+/*!********************************!*\
+  !*** ./components/UpcMain.tsx ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     return new (P || (P = Promise))(function (resolve, reject) {
         function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
@@ -104,16 +161,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const UpcInv_1 = __webpack_require__(/*! ./model/UpcInv */ "./model/UpcInv.ts");
-const UpcItem_1 = __webpack_require__(/*! ./components/UpcItem */ "./components/UpcItem.tsx");
+const UpcInv_1 = __webpack_require__(/*! ../model/UpcInv */ "./model/UpcInv.ts");
+const UpcItem_1 = __webpack_require__(/*! ./UpcItem */ "./components/UpcItem.tsx");
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-var ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-class Inner extends React.Component {
-    render() {
-        return (React.createElement("span", { style: { "font-weight": "bold" } }, "This is an inline react test string"));
-    }
-}
-exports.Inner = Inner;
 class UpcMainHeader extends React.Component {
     render() {
         return (React.createElement("h1", null, "UPC Inventory"));
@@ -148,40 +198,7 @@ class UpcMain extends React.Component {
             this.renderItemList()));
     }
 }
-ReactDOM.render(React.createElement(UpcMain, { Items: null }), document.getElementById('root'));
-
-
-/***/ }),
-
-/***/ "./components/UpcItem.tsx":
-/*!********************************!*\
-  !*** ./components/UpcItem.tsx ***!
-  \********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-var UpcItemView;
-(function (UpcItemView) {
-    class Item extends React.Component {
-        constructor(props) {
-            super(props);
-        }
-        render() {
-            return (React.createElement("div", null,
-                "Item ID: ",
-                this.props.ID,
-                " ",
-                React.createElement("br", null),
-                "Item Title: ",
-                this.props.Title));
-        }
-    }
-    UpcItemView.Item = Item;
-})(UpcItemView = exports.UpcItemView || (exports.UpcItemView = {}));
+exports.UpcMain = UpcMain;
 
 
 /***/ }),
