@@ -123,20 +123,21 @@ exports.UpcMainHeader = UpcMainHeader;
 class UpcMain extends React.Component {
     constructor(props) {
         super(props);
-        this.m_model = new UpcInv_1.UpcInvModel.UpcInvMain();
+        this.state = { Results: null };
     }
     componentDidMount() {
         return __awaiter(this, void 0, void 0, function* () {
-            yield this.m_model.fillMockData();
-            this.setState({ ItemRev: this.m_model.ItemRev });
+            let newItems = new UpcInv_1.UpcInvModel.UpcInvMain();
+            yield newItems.fillMockData();
+            this.setState({ Results: newItems });
         });
     }
     renderItemList() {
-        if (!this.m_model || !this.m_model.Items)
+        if (!this.state.Results)
             return (React.createElement("div", null, "Empty"));
         var items = [];
-        for (let i = 0; i < this.m_model.Items.length; i++) {
-            let item = this.m_model.Items[i];
+        for (let i = 0; i < this.state.Results.Items.length; i++) {
+            let item = this.state.Results.Items[i];
             items.push(React.createElement(UpcItem_1.UpcItemView.Item, { ID: item.ID, Title: item.Title }));
         }
         return (React.createElement("div", null, items));
@@ -147,7 +148,7 @@ class UpcMain extends React.Component {
             this.renderItemList()));
     }
 }
-ReactDOM.render(React.createElement(UpcMain, { ItemRev: 0 }), document.getElementById('root'));
+ReactDOM.render(React.createElement(UpcMain, { Items: null }), document.getElementById('root'));
 
 
 /***/ }),

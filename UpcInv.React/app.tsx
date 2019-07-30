@@ -31,40 +31,36 @@ export class UpcMainHeader extends React.Component
 
 interface UpcMainProps
 {
-    ItemRev: number;
+    Items: UpcInvModel.UpcInvMain;
 }
 
 class UpcMain extends React.Component<UpcMainProps>
 {
-    private m_model: UpcInvModel.UpcInvMain;
+    state = { Results: null };
 
     constructor(props: UpcMainProps)
     {
         super(props);
-        this.m_model = new UpcInvModel.UpcInvMain();
     }
 
     async componentDidMount()
     {
-        await this.m_model.fillMockData();
+        let newItems: UpcInvModel.UpcInvMain = new UpcInvModel.UpcInvMain();
+        await newItems.fillMockData();
 
-        this.setState({ ItemRev: this.m_model.ItemRev });
+        this.setState({ Results: newItems });
     }
 
     renderItemList()
     {
-        if (!this.m_model || !this.m_model.Items)
-            return (
-                <div>
-                    Empty
-                </div>
-            );
+        if (!this.state.Results)
+            return (<div>Empty</div>);
 
         var items = [];
 
-        for (let i: number = 0; i < this.m_model.Items.length; i++)
+        for (let i: number = 0; i < this.state.Results.Items.length; i++)
         {
-            let item: UpcItemModel.IItem = this.m_model.Items[i];
+            let item: UpcItemModel.IItem = this.state.Results.Items[i];
 
             items.push(<UpcItemView.Item ID={item.ID} Title={item.Title}/>);
         }
@@ -84,4 +80,4 @@ class UpcMain extends React.Component<UpcMainProps>
 }
 
 
-ReactDOM.render(<UpcMain ItemRev={0} />, document.getElementById('root'));
+ReactDOM.render(<UpcMain Items={null} />, document.getElementById('root'));
