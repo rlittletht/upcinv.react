@@ -1,38 +1,41 @@
 ﻿
-export interface UpcItemProps
+export namespace UpcItemModel
 {
-    readonly Title: string;
-    readonly ID: string;
-}
-
-export interface UpcItem extends UpcItemProps
-{
-    Lookup(id: string): Promise<boolean>;
-}
-
-
-export class UpcGenericItem implements UpcItem
-{
-    private m_title: string;
-    private m_id: string;
-
-    get Title(): string
+    export interface Props
     {
-        return this.m_title;
+        readonly Title: string;
+        readonly ID: string;
     }
 
-    get ID(): string
+    export interface IItem extends Props
     {
-        return this.m_id;
+        Lookup(id: string): Promise<boolean>;
     }
 
-    constructor() {}
 
-    async Lookup(id: string): Promise<boolean>
+    export class GenericItem implements IItem
     {
-        this.m_id = id;
-        this.m_title = "This is the title for " + id;
+        private m_title: string;
+        private m_id: string;
 
-        return true;
+        get Title(): string
+        {
+            return this.m_title;
+        }
+
+        get ID(): string
+        {
+            return this.m_id;
+        }
+
+        constructor() {}
+
+        async Lookup(id: string): Promise<boolean>
+        {
+            this.m_id = id;
+            this.m_title = "This is the title for " + id;
+
+            return true;
+        }
     }
 }

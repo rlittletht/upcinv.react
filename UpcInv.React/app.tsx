@@ -1,7 +1,8 @@
 ﻿declare var require: any
 
-import { UpcInvMain } from "./model/UpcInv";
-import { UpcItem, UpcItemProps } from "./model/UpcItem";
+import { UpcInvModel } from "./model/UpcInv";
+import { UpcItemModel } from "./model/UpcItem";
+import { UpcItemView } from "./components/UpcItem";
 
 var React = require('react');
 var ReactDOM = require('react-dom');
@@ -26,22 +27,7 @@ export class UpcMainHeader extends React.Component
     }
 }
 
-export class Item extends React.Component<UpcItemProps>
-{
-    constructor(props: UpcItemProps)
-    {
-        super(props);
-    }
 
-    render()
-    {
-        return (<div>
-                    Item ID: { this.props.ID } <br/>
-                    Item Title: { this.props.Title }
-                </div>
-        );
-    }
-}
 
 interface UpcMainProps
 {
@@ -50,12 +36,12 @@ interface UpcMainProps
 
 class UpcMain extends React.Component<UpcMainProps>
 {
-    private m_model: UpcInvMain;
+    private m_model: UpcInvModel.UpcInvMain;
 
     constructor(props: UpcMainProps)
     {
         super(props);
-        this.m_model = new UpcInvMain();
+        this.m_model = new UpcInvModel.UpcInvMain();
     }
 
     async componentDidMount()
@@ -78,9 +64,9 @@ class UpcMain extends React.Component<UpcMainProps>
 
         for (let i: number = 0; i < this.m_model.Items.length; i++)
         {
-            let item: UpcItem = this.m_model.Items[i];
+            let item: UpcItemModel.IItem = this.m_model.Items[i];
 
-            items.push(<Item ID={item.ID} Title={item.Title}/>);
+            items.push(<UpcItemView.Item ID={item.ID} Title={item.Title}/>);
         }
 
         return (<div>{items}</div>);
