@@ -20,6 +20,7 @@
 # except the ones that are bundled
 !/*/dist/*.js
 !/*/dist/*.js.map
+!webpack-config.js
 
 # Build results
 [Dd]ebug/

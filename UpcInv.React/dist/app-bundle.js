@@ -95,47 +95,197 @@
 
 "use strict";
 
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 Object.defineProperty(exports, "__esModule", { value: true });
+const UpcMain_1 = __webpack_require__(/*! ./components/UpcMain */ "./components/UpcMain.tsx");
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var ReactDOM = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
-var Hello = /** @class */ (function (_super) {
-    __extends(Hello, _super);
-    function Hello() {
-        return _super !== null && _super.apply(this, arguments) || this;
+ReactDOM.render(React.createElement(UpcMain_1.UpcMain, null), document.getElementById('root'));
+
+
+/***/ }),
+
+/***/ "./components/UpcItem.tsx":
+/*!********************************!*\
+  !*** ./components/UpcItem.tsx ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var UpcItemView;
+(function (UpcItemView) {
+    class Item extends React.Component {
+        constructor(props) {
+            super(props);
+        }
+        render() {
+            return (React.createElement("div", null,
+                "Item ID: ",
+                this.props.ID,
+                " ",
+                React.createElement("br", null),
+                "Item Title: ",
+                this.props.Title));
+        }
     }
-    Hello.prototype.render = function () {
-        return (React.createElement("h1", null,
-            "Welcome to ",
-            React.createElement(Inner, null)));
-    };
-    return Hello;
-}(React.Component));
-exports.Hello = Hello;
-var Inner = /** @class */ (function (_super) {
-    __extends(Inner, _super);
-    function Inner() {
-        return _super !== null && _super.apply(this, arguments) || this;
+    UpcItemView.Item = Item;
+})(UpcItemView = exports.UpcItemView || (exports.UpcItemView = {}));
+
+
+/***/ }),
+
+/***/ "./components/UpcMain.tsx":
+/*!********************************!*\
+  !*** ./components/UpcMain.tsx ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const UpcInv_1 = __webpack_require__(/*! ../model/UpcInv */ "./model/UpcInv.ts");
+const UpcItem_1 = __webpack_require__(/*! ./UpcItem */ "./components/UpcItem.tsx");
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+class UpcMainHeader extends React.Component {
+    render() {
+        return (React.createElement("h1", null, "UPC Inventory"));
     }
-    Inner.prototype.render = function () {
-        return (React.createElement("span", { style: { "font-weight": "bold" } }, "This is an inline react test string"));
-    };
-    return Inner;
-}(React.Component));
-exports.Inner = Inner;
-ReactDOM.render(React.createElement(Hello, null), document.getElementById('root'));
+}
+exports.UpcMainHeader = UpcMainHeader;
+class UpcMain extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { Results: null };
+    }
+    componentDidMount() {
+        return __awaiter(this, void 0, void 0, function* () {
+            let newItems = new UpcInv_1.UpcInvModel.UpcInvMain();
+            yield newItems.fillMockData();
+            this.setState({ Results: newItems });
+        });
+    }
+    renderItemList() {
+        if (!this.state.Results)
+            return (React.createElement("div", null, "Empty"));
+        var items = [];
+        for (let i = 0; i < this.state.Results.Items.length; i++) {
+            let item = this.state.Results.Items[i];
+            items.push(React.createElement(UpcItem_1.UpcItemView.Item, { ID: item.ID, Title: item.Title }));
+        }
+        return (React.createElement("div", null, items));
+    }
+    render() {
+        return (React.createElement("div", null,
+            React.createElement(UpcMainHeader, null),
+            this.renderItemList()));
+    }
+}
+exports.UpcMain = UpcMain;
+
+
+/***/ }),
+
+/***/ "./model/UpcInv.ts":
+/*!*************************!*\
+  !*** ./model/UpcInv.ts ***!
+  \*************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const UpcItem_1 = __webpack_require__(/*! ./UpcItem */ "./model/UpcItem.ts");
+var UpcInvModel;
+(function (UpcInvModel) {
+    class UpcInvMain {
+        constructor() {
+            this.m_itemRev = 0;
+        }
+        get Items() {
+            return this.m_items;
+        }
+        fillMockData() {
+            return __awaiter(this, void 0, void 0, function* () {
+                this.m_items = new Array();
+                var item;
+                item = new UpcItem_1.UpcItemModel.GenericItem();
+                yield item.Lookup("12345");
+                this.m_items.push(item);
+                item = new UpcItem_1.UpcItemModel.GenericItem();
+                yield item.Lookup("34567");
+                this.m_items.push(item);
+                this.m_itemRev++;
+            });
+        }
+        get ItemRev() {
+            return this.m_itemRev;
+        }
+    }
+    UpcInvModel.UpcInvMain = UpcInvMain;
+})(UpcInvModel = exports.UpcInvModel || (exports.UpcInvModel = {}));
+
+
+/***/ }),
+
+/***/ "./model/UpcItem.ts":
+/*!**************************!*\
+  !*** ./model/UpcItem.ts ***!
+  \**************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var UpcItemModel;
+(function (UpcItemModel) {
+    class GenericItem {
+        constructor() { }
+        get Title() {
+            return this.m_title;
+        }
+        get ID() {
+            return this.m_id;
+        }
+        Lookup(id) {
+            return __awaiter(this, void 0, void 0, function* () {
+                this.m_id = id;
+                this.m_title = "This is the title for " + id;
+                return true;
+            });
+        }
+    }
+    UpcItemModel.GenericItem = GenericItem;
+})(UpcItemModel = exports.UpcItemModel || (exports.UpcItemModel = {}));
 
 
 /***/ }),
