@@ -42,6 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.tsx" />
+    <TypeScriptCompile Include="components\query.tsx">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="components\UpcItem.tsx">
       <SubType>Code</SubType>
     </TypeScriptCompile>

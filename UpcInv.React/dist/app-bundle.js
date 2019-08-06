@@ -248,6 +248,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const UpcInv_1 = __webpack_require__(/*! ../model/UpcInv */ "./model/UpcInv.ts");
 const UpcItem_1 = __webpack_require__(/*! ./UpcItem */ "./components/UpcItem.tsx");
+const query_1 = __webpack_require__(/*! ./query */ "./components/query.tsx");
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 class UpcMainHeader extends React.Component {
     render() {
@@ -262,17 +263,21 @@ class UpcMain extends React.Component {
     }
     componentDidMount() {
         return __awaiter(this, void 0, void 0, function* () {
-            let newItems = new UpcInv_1.UpcInvModel.UpcInvMain();
-            yield newItems.fillMockData();
-            this.setState({ Results: newItems });
+            this.m_model = new UpcInv_1.UpcInvModel.UpcInvMain();
+            yield this.m_model.fillMockData((newResults) => { this.setResults(newResults); });
+        });
+    }
+    setResults(newResults) {
+        return __awaiter(this, void 0, void 0, function* () {
+            this.setState({ Results: newResults }, console.log("here!"));
         });
     }
     renderItemList() {
         if (!this.state.Results)
             return (React.createElement("div", null, "Empty"));
         var items = [];
-        for (let i = 0; i < this.state.Results.Items.length; i++) {
-            let item = this.state.Results.Items[i];
+        for (let i = 0; i < this.state.Results.length; i++) {
+            let item = this.state.Results[i];
             items.push(React.createElement(UpcItem_1.UpcItemView.Item, { key: item.ID, ID: item.ID, Title: item.Title }));
         }
         return (React.createElement("div", null, items));
@@ -280,10 +285,42 @@ class UpcMain extends React.Component {
     render() {
         return (React.createElement("div", null,
             React.createElement(UpcMainHeader, null),
+            React.createElement(query_1.QueryView.Query, null),
+            React.createElement("hr", null),
             this.renderItemList()));
     }
 }
 exports.UpcMain = UpcMain;
+
+
+/***/ }),
+
+/***/ "./components/query.tsx":
+/*!******************************!*\
+  !*** ./components/query.tsx ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+var QueryView;
+(function (QueryView) {
+    class Query extends React.Component {
+        constructor(props) {
+            super(props);
+        }
+        render() {
+            return (React.createElement("div", null,
+                "Scan Code: ",
+                React.createElement("input", { id: "queryScanCode", type: "stringg" }),
+                React.createElement("br", null)));
+        }
+    }
+    QueryView.Query = Query;
+})(QueryView = exports.QueryView || (exports.QueryView = {}));
 
 
 /***/ }),
@@ -318,7 +355,7 @@ var UpcInvModel;
         get Items() {
             return this.m_items;
         }
-        fillMockData() {
+        fillMockData(setResults) {
             return __awaiter(this, void 0, void 0, function* () {
                 this.m_items = new Array();
                 var item;
@@ -329,6 +366,7 @@ var UpcInvModel;
                 yield item.Lookup("9780394858180");
                 this.m_items.push(item);
                 this.m_itemRev++;
+                setResults(this.Items);
             });
         }
         get ItemRev() {

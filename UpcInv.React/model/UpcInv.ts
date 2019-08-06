@@ -6,6 +6,8 @@ import { UpcApi } from "../Service/UpcApi";
 
 export namespace UpcInvModel
 {
+    type SetResultsCallback = (newResults: Array<UpcItemModel.IItem>) => void;
+
     export class UpcInvMain
     {
         private m_items: Array<UpcItemModel.IItem>;
@@ -23,7 +25,8 @@ export namespace UpcInvModel
             return this.m_items;
         }
 
-        async fillMockData()
+
+        async fillMockData(setResults: SetResultsCallback)
         {
             this.m_items = new Array<UpcItemModel.IItem>();
 
@@ -38,6 +41,7 @@ export namespace UpcInvModel
             this.m_items.push(item);
 
             this.m_itemRev++;
+            setResults(this.Items);
         }
 
         get ItemRev(): number
