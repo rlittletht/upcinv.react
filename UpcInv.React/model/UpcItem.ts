@@ -1,5 +1,6 @@
 ﻿
 import fetch from 'cross-fetch';
+import { WebApiInterop } from "../Service/WebApiInterop";
 
 interface ScanInfo
 {
@@ -37,6 +38,7 @@ export namespace UpcItemModel
         private m_title: string;
         private m_id: string;
         private m_key: string;
+        private m_apiInterop: WebApiInterop;
 
         get Title(): string
         {
@@ -53,26 +55,19 @@ export namespace UpcItemModel
             return this.m_key;
         }
 
-        constructor() {}
+        constructor(apiInterop: WebApiInterop)
+        {
+            this.m_apiInterop = apiInterop;
+        }
 
 
         async Lookup(id: string): Promise<boolean>
         {
-            let result = await fetch(
-                "//thetasoft2.azurewebsites.net/UpcApi/api/book/GetBookScanInfo?ScanCode=" + id,
-                {
-                    mode: 'cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'// ,
-                    }
-                });
+            var scanInfo: TUpcInvResult<ScanInfo>;
 
-            if (result.status >= 400)
-                return false;
-
-            var jsonResult = await result.json();
-            var scanInfo: TUpcInvResult<ScanInfo> = jsonResult;
+            scanInfo = await this.m_apiInterop.Fetch<TUpcInvResult<ScanInfo>>(
+                "api/book/GetBookScanInfo",
+                [{ "ScanCode": id }]);
 
             this.m_id = scanInfo.TheValue.Code;
             this.m_title = scanInfo.TheValue.Title;

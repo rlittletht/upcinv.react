@@ -86,6 +86,61 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./Service/WebApiInterop.ts":
+/*!**********************************!*\
+  !*** ./Service/WebApiInterop.ts ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+class WebApiInterop {
+    constructor(sApiRoot) {
+        this.m_sApiRoot = sApiRoot;
+    }
+    FetchJson(sApi, args) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let rgs = [];
+            for (var arg of args) {
+                for (var key in arg) {
+                    rgs.push(`${key}=${arg[key]}`);
+                }
+            }
+            let sCall = this.m_sApiRoot.concat("/", sApi, "?", rgs.join("&"));
+            let result = yield fetch(sCall, {
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json' // ,
+                }
+            });
+            if (result.status >= 400)
+                throw new Error(`FetchJson failed: (${result.status})`);
+            return yield result.json();
+        });
+    }
+    Fetch(sApi, args) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var json = yield this.FetchJson(sApi, args);
+            return json;
+        });
+    }
+}
+exports.WebApiInterop = WebApiInterop;
+
+
+/***/ }),
+
 /***/ "./app.tsx":
 /*!*****************!*\
   !*** ./app.tsx ***!
@@ -216,11 +271,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const UpcItem_1 = __webpack_require__(/*! ./UpcItem */ "./model/UpcItem.ts");
+const WebApiInterop_1 = __webpack_require__(/*! ../Service/WebApiInterop */ "./Service/WebApiInterop.ts");
 var UpcInvModel;
 (function (UpcInvModel) {
     class UpcInvMain {
         constructor() {
             this.m_itemRev = 0;
+            this.m_apiInterop = new WebApiInterop_1.WebApiInterop("//thetasoft2.azurewebsites.net/UpcApi");
         }
         get Items() {
             return this.m_items;
@@ -229,10 +286,10 @@ var UpcInvModel;
             return __awaiter(this, void 0, void 0, function* () {
                 this.m_items = new Array();
                 var item;
-                item = new UpcItem_1.UpcItemModel.GenericItem();
+                item = new UpcItem_1.UpcItemModel.GenericItem(this.m_apiInterop);
                 yield item.Lookup("9780439101363");
                 this.m_items.push(item);
-                item = new UpcItem_1.UpcItemModel.GenericItem();
+                item = new UpcItem_1.UpcItemModel.GenericItem(this.m_apiInterop);
                 yield item.Lookup("9780394858180");
                 this.m_items.push(item);
                 this.m_itemRev++;
@@ -270,7 +327,9 @@ const cross_fetch_1 = __webpack_require__(/*! cross-fetch */ "./node_modules/cro
 var UpcItemModel;
 (function (UpcItemModel) {
     class GenericItem {
-        constructor() { }
+        constructor(apiInterop) {
+            this.m_apiInterop = apiInterop;
+        }
         get Title() {
             return this.m_title;
         }
@@ -281,6 +340,15 @@ var UpcItemModel;
             return this.m_key;
         }
         Lookup(id) {
+            return __awaiter(this, void 0, void 0, function* () {
+                var scanInfo;
+                scanInfo = yield this.m_apiInterop.Fetch("api/book/GetBookScanInfo", [{ "ScanCode": id }]);
+                this.m_id = scanInfo.TheValue.Code;
+                this.m_title = scanInfo.TheValue.Title;
+                return true;
+            });
+        }
+        LookupOld(id) {
             return __awaiter(this, void 0, void 0, function* () {
                 let result = yield cross_fetch_1.default("//thetasoft2.azurewebsites.net/UpcApi/api/book/GetBookScanInfo?ScanCode=" + id, {
                     mode: 'cors',
