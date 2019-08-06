@@ -40,7 +40,7 @@ export class UpcMain extends React.Component<UpcMainProps>
 
     async setResults(newResults: Array<UpcItemModel.IItem>)
     {
-        this.setState({ Results: newResults }, console.log("here!"));
+        this.setState({ Results: newResults });
     }
 
     renderItemList()
