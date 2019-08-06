@@ -1,10 +1,29 @@
 ﻿
+import fetch from 'cross-fetch';
+
+interface ScanInfo
+{
+    Code: string;
+    FirstScan: Date;
+    LastScan: Date;
+    Location: string;
+    Title: string;
+}
+
+interface TUpcInvResult<T>
+{
+    CorrelationID: string;
+    Reason: string;
+    TheValue: T;
+}
+
 export namespace UpcItemModel
 {
     export interface Props
     {
         readonly Title: string;
         readonly ID: string;
+        readonly key: string;
     }
 
     export interface IItem extends Props
@@ -17,6 +36,7 @@ export namespace UpcItemModel
     {
         private m_title: string;
         private m_id: string;
+        private m_key: string;
 
         get Title(): string
         {
@@ -28,12 +48,34 @@ export namespace UpcItemModel
             return this.m_id;
         }
 
+        get key(): string
+        {
+            return this.m_key;
+        }
+
         constructor() {}
+
 
         async Lookup(id: string): Promise<boolean>
         {
-            this.m_id = id;
-            this.m_title = "This is the title for " + id;
+            let result = await fetch(
+                "//thetasoft2.azurewebsites.net/UpcApi/api/book/GetBookScanInfo?ScanCode=" + id,
+                {
+                    mode: 'cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'// ,
+                    }
+                });
+
+            if (result.status >= 400)
+                return false;
+
+            var jsonResult = await result.json();
+            var scanInfo: TUpcInvResult<ScanInfo> = jsonResult;
+
+            this.m_id = scanInfo.TheValue.Code;
+            this.m_title = scanInfo.TheValue.Title;
 
             return true;
         }

@@ -47,7 +47,7 @@ export class UpcMain extends React.Component<UpcMainProps>
         {
             let item: UpcItemModel.IItem = this.state.Results.Items[i];
 
-            items.push(<UpcItemView.Item ID={item.ID} Title={item.Title}/>);
+            items.push(<UpcItemView.Item key={item.ID} ID={item.ID} Title={item.Title}/>);
         }
 
         return (<div>{items}</div>);

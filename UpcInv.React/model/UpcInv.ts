@@ -26,11 +26,11 @@ export namespace UpcInvModel
             var item: UpcItemModel.GenericItem;
 
             item = new UpcItemModel.GenericItem();
-            await item.Lookup("12345");
+            await item.Lookup("9780439101363");
             this.m_items.push(item);
 
             item = new UpcItemModel.GenericItem();
-            await item.Lookup("34567");
+            await item.Lookup("9780394858180");
             this.m_items.push(item);
 
             this.m_itemRev++;
