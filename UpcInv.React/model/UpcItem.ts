@@ -45,6 +45,16 @@ export namespace UpcItemModel
             this.m_upcApi = upcApi;
         }
 
+        public static CreateFromValues(id: string, title: string): GenericItem
+        {
+            let newItem: GenericItem = new GenericItem(null);
+
+            newItem.m_title = title;
+            newItem.m_id = id;
+            newItem.m_key = id;
+
+            return newItem;
+        }
 
         async Lookup(id: string): Promise<boolean>
         {

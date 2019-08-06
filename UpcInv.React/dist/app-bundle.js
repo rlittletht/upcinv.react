@@ -249,6 +249,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const UpcInv_1 = __webpack_require__(/*! ../model/UpcInv */ "./model/UpcInv.ts");
 const UpcItem_1 = __webpack_require__(/*! ./UpcItem */ "./components/UpcItem.tsx");
 const query_1 = __webpack_require__(/*! ./query */ "./components/query.tsx");
+const UpcApi_1 = __webpack_require__(/*! ../Service/UpcApi */ "./Service/UpcApi.ts");
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 class UpcMainHeader extends React.Component {
     render() {
@@ -259,17 +260,21 @@ exports.UpcMainHeader = UpcMainHeader;
 class UpcMain extends React.Component {
     constructor(props) {
         super(props);
+        this.m_upcApi = new UpcApi_1.UpcApi("//thetasoft2.azurewebsites.net/UpcApi");
         this.state = { Results: null };
+        // bind *this* to setResults method so we capture the right context for the method
+        // (so we can avoid having to do (newResults)=>{this.setResults(newResults) everywhere
+        this.setResults = this.setResults.bind(this);
     }
     componentDidMount() {
         return __awaiter(this, void 0, void 0, function* () {
-            this.m_model = new UpcInv_1.UpcInvModel.UpcInvMain();
-            yield this.m_model.fillMockData((newResults) => { this.setResults(newResults); });
+            this.m_model = new UpcInv_1.UpcInvModel.UpcInvMain(this.m_upcApi);
+            yield this.m_model.fillMockData(this.setResults);
         });
     }
     setResults(newResults) {
         return __awaiter(this, void 0, void 0, function* () {
-            this.setState({ Results: newResults }, console.log("here!"));
+            this.setState({ Results: newResults });
         });
     }
     renderItemList() {
@@ -285,7 +290,7 @@ class UpcMain extends React.Component {
     render() {
         return (React.createElement("div", null,
             React.createElement(UpcMainHeader, null),
-            React.createElement(query_1.QueryView.Query, null),
+            React.createElement(query_1.QueryView.Query, { ApiInterop: this.m_upcApi, SetResults: this.setResults }),
             React.createElement("hr", null),
             this.renderItemList()));
     }
@@ -304,19 +309,50 @@ exports.UpcMain = UpcMain;
 
 "use strict";
 
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const UpcItem_1 = __webpack_require__(/*! ../model/UpcItem */ "./model/UpcItem.ts");
 var React = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 var QueryView;
 (function (QueryView) {
     class Query extends React.Component {
         constructor(props) {
             super(props);
+            this.state = { queryScanCode: null };
+            this.m_upcApi = props.ApiInterop;
+            this.m_setResults = props.SetResults;
+            // bind our context to these methods
+            this.updateQueryScanCode = this.updateQueryScanCode.bind(this);
+            this.DoQuery = this.DoQuery.bind(this);
+        }
+        updateQueryScanCode(event) {
+            this.setState({ queryScanCode: event.target.value });
+        }
+        DoQuery() {
+            return __awaiter(this, void 0, void 0, function* () {
+                let scanInfo = yield this.m_upcApi.GetBookScanInfo(this.state.queryScanCode);
+                let newResults = [UpcItem_1.UpcItemModel.GenericItem.CreateFromValues(scanInfo.TheValue.Code, scanInfo.TheValue.Title)];
+                this.m_setResults(newResults);
+                return true;
+            });
         }
         render() {
-            return (React.createElement("div", null,
+            // note that we initialize the value of our controls to our state, which means we can
+            // stay in sync by using the update method
+            return;
+            (React.createElement("div", null,
                 "Scan Code: ",
-                React.createElement("input", { id: "queryScanCode", type: "stringg" }),
-                React.createElement("br", null)));
+                React.createElement("input", { id: "queryScanCode", value: this.state.queryScanCode, type: "string", onChange: this
+                        .updateQueryScanCode }),
+                React.createElement("br", null),
+                React.createElement("input", { type: "button", value: "Query", id: "querySubmit", onClick: this.DoQuery })));
         }
     }
     QueryView.Query = Query;
@@ -344,13 +380,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const UpcItem_1 = __webpack_require__(/*! ./UpcItem */ "./model/UpcItem.ts");
-const UpcApi_1 = __webpack_require__(/*! ../Service/UpcApi */ "./Service/UpcApi.ts");
 var UpcInvModel;
 (function (UpcInvModel) {
     class UpcInvMain {
-        constructor() {
+        constructor(upcApi) {
             this.m_itemRev = 0;
-            this.m_upcApi = new UpcApi_1.UpcApi("//thetasoft2.azurewebsites.net/UpcApi");
+            this.m_upcApi = upcApi;
         }
         get Items() {
             return this.m_items;
@@ -411,6 +446,13 @@ var UpcItemModel;
         }
         get key() {
             return this.m_key;
+        }
+        static CreateFromValues(id, title) {
+            let newItem = new GenericItem(null);
+            newItem.m_title = title;
+            newItem.m_id = id;
+            newItem.m_key = id;
+            return newItem;
         }
         Lookup(id) {
             return __awaiter(this, void 0, void 0, function* () {

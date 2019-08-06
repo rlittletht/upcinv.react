@@ -3,6 +3,7 @@ import { UpcItemModel } from "../model/UpcItem";
 import { UpcInvModel } from "../model/UpcInv";
 import { UpcItemView } from "./UpcItem";
 import { QueryView } from "./query";
+import { UpcApi } from "../Service/UpcApi";
 
 var React = require('react');
 
@@ -23,19 +24,24 @@ export interface UpcMainProps
 export class UpcMain extends React.Component<UpcMainProps>
 {
     private m_model: UpcInvModel.UpcInvMain;
+    private m_upcApi: UpcApi = new UpcApi("//thetasoft2.azurewebsites.net/UpcApi");
 
     state = { Results: null };
 
     constructor(props: UpcMainProps)
     {
         super(props);
+
+        // bind *this* to setResults method so we capture the right context for the method
+        // (so we can avoid having to do (newResults)=>{this.setResults(newResults) everywhere
+        this.setResults = this.setResults.bind(this);
     }
 
     async componentDidMount()
     {
-        this.m_model = new UpcInvModel.UpcInvMain();
+        this.m_model = new UpcInvModel.UpcInvMain(this.m_upcApi);
 
-        await this.m_model.fillMockData((newResults) => { this.setResults(newResults); });
+        await this.m_model.fillMockData(this.setResults);
     }
 
     async setResults(newResults: Array<UpcItemModel.IItem>)
@@ -65,7 +71,7 @@ export class UpcMain extends React.Component<UpcMainProps>
         return (
             <div>
                 <UpcMainHeader />
-                <QueryView.Query />
+                <QueryView.Query ApiInterop={this.m_upcApi} SetResults={this.setResults}/>
                 <hr/>
                 {this.renderItemList()}
             </div>

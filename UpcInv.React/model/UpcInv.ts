@@ -4,20 +4,20 @@ import { UpcItemModel } from "./UpcItem";
 import { WebApiInterop } from "../Service/WebApiInterop";
 import { UpcApi } from "../Service/UpcApi";
 
+export type SetResultsCallback = (newResults: Array<UpcItemModel.IItem>) => void;
+
 export namespace UpcInvModel
 {
-    type SetResultsCallback = (newResults: Array<UpcItemModel.IItem>) => void;
-
     export class UpcInvMain
     {
         private m_items: Array<UpcItemModel.IItem>;
         private m_itemRev: number;
         private m_upcApi: UpcApi;
 
-        constructor()
+        constructor(upcApi: UpcApi)
         {
             this.m_itemRev = 0;
-            this.m_upcApi = new UpcApi("//thetasoft2.azurewebsites.net/UpcApi");
+            this.m_upcApi = upcApi;
         }
 
         get Items(): Array<UpcItemModel.IItem>
