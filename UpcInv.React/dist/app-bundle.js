@@ -282,7 +282,7 @@ var UpcItemModel;
         }
         Lookup(id) {
             return __awaiter(this, void 0, void 0, function* () {
-                let result = yield cross_fetch_1.default("//thetasoft2.azurewebsites.net/upcsvc/upcsvc.svc/rest/GetBookScanInfo?sScanCode=" + id, {
+                let result = yield cross_fetch_1.default("//thetasoft2.azurewebsites.net/UpcApi/api/book/GetBookScanInfo?ScanCode=" + id, {
                     mode: 'cors',
                     headers: {
                         'Content-Type': 'application/json',
@@ -292,7 +292,7 @@ var UpcItemModel;
                 if (result.status >= 400)
                     return false;
                 var jsonResult = yield result.json();
-                var scanInfo = jsonResult.GetBookScanInfoResult;
+                var scanInfo = jsonResult;
                 this.m_id = scanInfo.TheValue.Code;
                 this.m_title = scanInfo.TheValue.Title;
                 return true;

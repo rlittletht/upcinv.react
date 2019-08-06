@@ -59,7 +59,7 @@ export namespace UpcItemModel
         async Lookup(id: string): Promise<boolean>
         {
             let result = await fetch(
-                "//thetasoft2.azurewebsites.net/upcsvc/upcsvc.svc/rest/GetBookScanInfo?sScanCode=" + id,
+                "//thetasoft2.azurewebsites.net/UpcApi/api/book/GetBookScanInfo?ScanCode=" + id,
                 {
                     mode: 'cors',
                     headers: {
@@ -72,7 +72,7 @@ export namespace UpcItemModel
                 return false;
 
             var jsonResult = await result.json();
-            var scanInfo: TUpcInvResult<ScanInfo> = jsonResult.GetBookScanInfoResult;
+            var scanInfo: TUpcInvResult<ScanInfo> = jsonResult;
 
             this.m_id = scanInfo.TheValue.Code;
             this.m_title = scanInfo.TheValue.Title;
