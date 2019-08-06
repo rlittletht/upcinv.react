@@ -182,7 +182,7 @@ class UpcMain extends React.Component {
         var items = [];
         for (let i = 0; i < this.state.Results.Items.length; i++) {
             let item = this.state.Results.Items[i];
-            items.push(React.createElement(UpcItem_1.UpcItemView.Item, { ID: item.ID, Title: item.Title }));
+            items.push(React.createElement(UpcItem_1.UpcItemView.Item, { key: item.ID, ID: item.ID, Title: item.Title }));
         }
         return (React.createElement("div", null, items));
     }
@@ -277,15 +277,16 @@ var UpcItemModel;
         get ID() {
             return this.m_id;
         }
+        get key() {
+            return this.m_key;
+        }
         Lookup(id) {
             return __awaiter(this, void 0, void 0, function* () {
                 let result = yield cross_fetch_1.default("//thetasoft2.azurewebsites.net/upcsvc/upcsvc.svc/rest/GetBookScanInfo?sScanCode=" + id, {
                     mode: 'cors',
                     headers: {
-                        //                        'Access-Control-Allow-Origin': '*',
                         'Content-Type': 'application/json',
                         'Accept': 'application/json' // ,
-                        //                        'Access-Control-Allow-Methods': 'GET,OPTIONS'
                     }
                 });
                 if (result.status >= 400)

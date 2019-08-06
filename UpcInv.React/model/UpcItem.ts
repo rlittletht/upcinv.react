@@ -23,6 +23,7 @@ export namespace UpcItemModel
     {
         readonly Title: string;
         readonly ID: string;
+        readonly key: string;
     }
 
     export interface IItem extends Props
@@ -35,6 +36,7 @@ export namespace UpcItemModel
     {
         private m_title: string;
         private m_id: string;
+        private m_key: string;
 
         get Title(): string
         {
@@ -44,6 +46,11 @@ export namespace UpcItemModel
         get ID(): string
         {
             return this.m_id;
+        }
+
+        get key(): string
+        {
+            return this.m_key;
         }
 
         constructor() {}
