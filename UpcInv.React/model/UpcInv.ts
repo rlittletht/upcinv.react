@@ -2,6 +2,7 @@
 
 import { UpcItemModel } from "./UpcItem";
 import { WebApiInterop } from "../Service/WebApiInterop";
+import { UpcApi } from "../Service/UpcApi";
 
 export namespace UpcInvModel
 {
@@ -9,12 +10,12 @@ export namespace UpcInvModel
     {
         private m_items: Array<UpcItemModel.IItem>;
         private m_itemRev: number;
-        private m_apiInterop: WebApiInterop;
+        private m_upcApi: UpcApi;
 
         constructor()
         {
             this.m_itemRev = 0;
-            this.m_apiInterop = new WebApiInterop("//thetasoft2.azurewebsites.net/UpcApi");
+            this.m_upcApi = new UpcApi("//thetasoft2.azurewebsites.net/UpcApi");
         }
 
         get Items(): Array<UpcItemModel.IItem>
@@ -28,11 +29,11 @@ export namespace UpcInvModel
 
             var item: UpcItemModel.GenericItem;
 
-            item = new UpcItemModel.GenericItem(this.m_apiInterop);
+            item = new UpcItemModel.GenericItem(this.m_upcApi);
             await item.Lookup("9780439101363");
             this.m_items.push(item);
 
-            item = new UpcItemModel.GenericItem(this.m_apiInterop);
+            item = new UpcItemModel.GenericItem(this.m_upcApi);
             await item.Lookup("9780394858180");
             this.m_items.push(item);
 

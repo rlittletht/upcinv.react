@@ -54,6 +54,9 @@
     <TypeScriptCompile Include="model\UpcItem.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
+    <TypeScriptCompile Include="Service\UpcApi.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
     <TypeScriptCompile Include="Service\WebApiInterop.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>

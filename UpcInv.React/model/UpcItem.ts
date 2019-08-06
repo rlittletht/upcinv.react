@@ -1,22 +1,7 @@
 ﻿
 import fetch from 'cross-fetch';
 import { WebApiInterop } from "../Service/WebApiInterop";
-
-interface ScanInfo
-{
-    Code: string;
-    FirstScan: Date;
-    LastScan: Date;
-    Location: string;
-    Title: string;
-}
-
-interface TUpcInvResult<T>
-{
-    CorrelationID: string;
-    Reason: string;
-    TheValue: T;
-}
+import { UpcApi, BookInfo, UIR_BookInfo } from "../Service/UpcApi";
 
 export namespace UpcItemModel
 {
@@ -38,7 +23,7 @@ export namespace UpcItemModel
         private m_title: string;
         private m_id: string;
         private m_key: string;
-        private m_apiInterop: WebApiInterop;
+        private m_upcApi: UpcApi;
 
         get Title(): string
         {
@@ -55,19 +40,15 @@ export namespace UpcItemModel
             return this.m_key;
         }
 
-        constructor(apiInterop: WebApiInterop)
+        constructor(upcApi: UpcApi)
         {
-            this.m_apiInterop = apiInterop;
+            this.m_upcApi = upcApi;
         }
 
 
         async Lookup(id: string): Promise<boolean>
         {
-            var scanInfo: TUpcInvResult<ScanInfo>;
-
-            scanInfo = await this.m_apiInterop.Fetch<TUpcInvResult<ScanInfo>>(
-                "api/book/GetBookScanInfo",
-                [{ "ScanCode": id }]);
+            let scanInfo: UIR_BookInfo = await this.m_upcApi.GetBookScanInfo(id);
 
             this.m_id = scanInfo.TheValue.Code;
             this.m_title = scanInfo.TheValue.Title;
