@@ -1,4 +1,4 @@
-﻿import { UIR_BookInfo, UpcApi } from "../Service/UpcApi";
+﻿import { UIR_BookInfoEx, UpcApi } from "../Service/UpcApi";
 import { UpcItemModel } from "../model/UpcItem";
 import { SetResultsCallback } from "../model/UpcInv";
 import { DefaultButton, TextField, Stack, Pivot, PivotItem, PivotLinkSize } from 'office-ui-fabric-react';
@@ -54,10 +54,10 @@ export namespace QueryView
 
         async DoQuery()
         {
-            let scanInfo: UIR_BookInfo = await this.m_upcApi.GetBookScanInfo(this.state.queryScanCode);
+            let scanInfo: UIR_BookInfoEx = await this.m_upcApi.GetFullBookScanInfo(this.state.queryScanCode);
 
             let newResults: UpcItemModel.IItem[] =
-                [UpcItemModel.GenericItem.CreateFromValues(scanInfo.TheValue.Code, scanInfo.TheValue.Title)];
+                [UpcItemModel.GenericItem.CreateFromValues(scanInfo.TheValue.Code, scanInfo.TheValue.Title, scanInfo.TheValue)];
 
             this.m_setResults(newResults);
             return true;

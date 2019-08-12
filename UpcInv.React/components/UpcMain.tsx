@@ -5,7 +5,7 @@ import { UpcItemView } from "./UpcItem";
 import { QueryView } from "./query";
 import { UpcApi } from "../Service/UpcApi";
 import * as React from 'react';
-import { DetailsList, Panel, PanelType, initializeIcons, SelectionMode, Text, Label } from 'office-ui-fabric-react';
+import { DetailsList, Panel, PanelType, initializeIcons, SelectionMode, Text, Label, Image } from 'office-ui-fabric-react';
 
 export class UpcMainHeader extends React.Component {
     render() {
@@ -53,7 +53,6 @@ export class UpcMain extends React.Component<UpcMainProps>
     itemSelected = (event) => {
         this.setState({ Item: event });
         this.setState({ ShowPanel: true });
-        console.log(event);
     }
 
     panelClose = () => {
@@ -70,14 +69,15 @@ export class UpcMain extends React.Component<UpcMainProps>
         for (let i: number = 0; i < this.state.Results.length; i++)
         {
             let item: UpcItemModel.IItem = this.state.Results[i];
-
-            items.push((<UpcItemView.Item key={item.ID} ID={item.ID} Title={item.Title} />).props);
+            items.push(item.Data);
         }
         return (<DetailsList
             items={items}
             columns={[
                 { key: 'column1', name: 'Title', fieldName: 'Title', minWidth: 100, maxWidth: 200, isResizable: true },
-                { key: 'column2', name: 'ID', fieldName: 'ID', minWidth: 100, maxWidth: 200, isResizable: true },
+                { key: 'column2', name: 'Author', fieldName: 'Author', minWidth: 100, maxWidth: 200, isResizable: true },
+                { key: 'column3', name: 'Series', fieldName: 'Series', minWidth: 100, maxWidth: 200, isResizable: true },
+                { key: 'column4', name: 'Scan Code', fieldName: 'Code', minWidth: 100, maxWidth: 200, isResizable: true },
             ]}
             onActiveItemChanged={this.itemSelected}
             selectionMode={SelectionMode.single}
@@ -103,9 +103,43 @@ export class UpcMain extends React.Component<UpcMainProps>
                         <br/>
                         <Text> {this.state.Item ? this.state.Item.Title : null} </Text>
                     </Label>
-                    <Label>ID
+                    <Label>Author
                         <br />
-                        <Text> {this.state.Item ? this.state.Item.ID : null} </Text>
+                        <Text> {this.state.Item ? this.state.Item.Author : null} </Text>
+                    </Label>
+                    <Label>Series
+                        <br />
+                        <Text> {this.state.Item ? this.state.Item.Series : null} </Text>
+                    </Label>
+                    <Label>Release Date
+                        <br />
+                        <Text> {this.state.Item ? new Date(this.state.Item.ReleaseDate).toDateString() : null} </Text>
+                    </Label>
+                    <Label>First Scan
+                        <br />
+                        <Text> {this.state.Item ? new Date(this.state.Item.FirstScan).toDateString() : null} </Text>
+                    </Label>
+                    <Label>Last Scan
+                        <br />
+                        <Text> {this.state.Item ? new Date(this.state.Item.LastScan).toDateString() : null} </Text>
+                    </Label>
+                    <Label>Location
+                        <br />
+                        <Text> {this.state.Item ? this.state.Item.Location : null} </Text>
+                    </Label>
+                    <Label>Summary
+                        <br />
+                        <Text> {this.state.Item ? this.state.Item.Summary : null} </Text>
+                    </Label>
+                    <Label>Scan Code
+                        <br />
+                        <Text> {this.state.Item ? this.state.Item.Code : null} </Text>
+                    </Label>
+                    <Label>Cover
+                        <br />
+                        <Image
+                            src={this.state.Item ? this.state.Item.CoverSrc : null}
+                        />
                     </Label>
                 </Panel>
             </div>
