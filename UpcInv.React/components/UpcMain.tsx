@@ -5,7 +5,7 @@ import { UpcItemView } from "./UpcItem";
 import { QueryView } from "./query";
 import { UpcApi } from "../Service/UpcApi";
 import * as React from 'react';
-import { List, DetailsList, Panel, PanelType, initializeIcons, SelectionMode } from 'office-ui-fabric-react';
+import { DetailsList, Panel, PanelType, initializeIcons, SelectionMode, Text, Label } from 'office-ui-fabric-react';
 
 export class UpcMainHeader extends React.Component {
     render() {
@@ -54,7 +54,6 @@ export class UpcMain extends React.Component<UpcMainProps>
         this.setState({ Item: event });
         this.setState({ ShowPanel: true });
         console.log(event);
-        console.log("here");
     }
 
     panelClose = () => {
@@ -97,10 +96,17 @@ export class UpcMain extends React.Component<UpcMainProps>
                     isBlocking={false}
                     isOpen={this.state.ShowPanel}
                     onDismiss={this.panelClose}
-                    type={PanelType.smallFixedFar}
+                    type={PanelType.medium}
                     closeButtonAriaLabel="Close"
                 >
-                    {this.state.Item ? this.state.Item.Title : null}
+                    <Label>Title
+                        <br/>
+                        <Text> {this.state.Item ? this.state.Item.Title : null} </Text>
+                    </Label>
+                    <Label>ID
+                        <br />
+                        <Text> {this.state.Item ? this.state.Item.ID : null} </Text>
+                    </Label>
                 </Panel>
             </div>
         );
