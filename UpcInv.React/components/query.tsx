@@ -72,11 +72,19 @@ export namespace QueryView
                 <div>
                     <Pivot linkSize={PivotLinkSize.large}>
                         <PivotItem headerText="Book">
-                            <Stack horizontal tokens={{ childrenGap: 50 }} styles={{ root: { width: 900, marginTop: 20 } }}>
-                                <TextField label="Scan Code:" id="queryScanCode" value={this.state.queryScanCode} type="string" onChange={this.updateQueryScanCode} />
-                                <TextField label="Title:" id="queryTitle" value={this.state.queryTitle} type="string" onChange={this.updateQueryTitle} />
-                                <TextField label="Author:" id="queryAuthor" value={this.state.queryAuthor} type="string" onChange={this.updateQueryAuthor} />
-                                <TextField label="Series:" id="querySeries" value={this.state.querySeries} type="string" onChange={this.updateQuerySeries} />
+                            <Stack horizontal wrap tokens={{ childrenGap: 20 }} styles={{ root: { width: 900, marginTop: 20 } }}>
+                                <span>
+                                    <TextField label="Scan Code:" id="queryScanCode" value={this.state.queryScanCode} type="string" onChange={this.updateQueryScanCode} />
+                                </span>
+                                <span>
+                                    <TextField label="Title:" id="queryTitle" value={this.state.queryTitle} type="string" onChange={this.updateQueryTitle} />
+                                </span>
+                                <span>
+                                    <TextField label="Author:" id="queryAuthor" value={this.state.queryAuthor} type="string" onChange={this.updateQueryAuthor} />
+                                </span>
+                                <span>
+                                    <TextField label="Series:" id="querySeries" value={this.state.querySeries} type="string" onChange={this.updateQuerySeries} />
+                                </span>
                             </Stack>
                             <br />
                             <DefaultButton text="Query" id="querySubmit" onClick={this.DoQuery} />
