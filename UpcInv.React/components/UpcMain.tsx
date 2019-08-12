@@ -4,9 +4,8 @@ import { UpcInvModel } from "../model/UpcInv";
 import { UpcItemView } from "./UpcItem";
 import { QueryView } from "./query";
 import { UpcApi } from "../Service/UpcApi";
-
-var React = require('react');
-
+import * as React from 'react';
+import { List, DetailsList } from 'office-ui-fabric-react';
 
 export class UpcMainHeader extends React.Component {
     render() {
@@ -60,10 +59,14 @@ export class UpcMain extends React.Component<UpcMainProps>
         {
             let item: UpcItemModel.IItem = this.state.Results[i];
 
-            items.push(<UpcItemView.Item key={item.ID} ID={item.ID} Title={item.Title}/>);
+            items.push((<UpcItemView.Item key={item.ID} ID={item.ID} Title={item.Title} />).props);
         }
-
-        return (<div>{items}</div>);
+        console.log(items);
+        console.log({ items });
+        return (<DetailsList items={items} columns={[
+            { key: 'column1', name: 'Title', fieldName: 'Title', minWidth: 100, maxWidth: 200, isResizable: true },
+            { key: 'column2', name: 'ID', fieldName: 'ID', minWidth: 100, maxWidth: 200, isResizable: true },
+        ]} />);
     }
 
     render()
