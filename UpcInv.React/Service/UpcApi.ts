@@ -34,6 +34,15 @@ export interface BookInfo
     LastScan: Date;
 }
 
+export interface BookInfoEx extends BookInfo
+{
+    Author: string;
+    Summary: string;
+    CoverSrc: string;
+    Series: string;
+    ReleaseDate: Date;
+}
+
 export interface WineInfo
 {
     Code: string;
@@ -51,6 +60,8 @@ export interface UIR_DvdInfo extends TUpcInvResult<DvdInfo> { }
 export interface UIR_DvdInfoList extends TUpcInvResult<DvdInfo[]> { }
 
 export interface UIR_BookInfo extends TUpcInvResult<BookInfo> { }
+
+export interface UIR_BookInfoEx extends TUpcInvResult<BookInfoEx> { }
 
 export interface UIR_BookInfoList extends TUpcInvResult<BookInfo[]> { }
 
@@ -73,6 +84,17 @@ export class UpcApi
 
         scanInfo = await this.m_apiInterop.Fetch<TUpcInvResult<ScanInfo>>(
             "api/book/GetBookScanInfo",
+            [{ "ScanCode": ScanCode }]);
+
+        return scanInfo;
+    }
+
+    async GetFullBookScanInfo(ScanCode: string): Promise<UIR_BookInfoEx>
+    {
+        var scanInfo: UIR_BookInfoEx;
+
+        scanInfo = await this.m_apiInterop.Fetch<TUpcInvResult<BookInfoEx>>(
+            "api/book/GetFullBookScanInfo",
             [{ "ScanCode": ScanCode }]);
 
         return scanInfo;
