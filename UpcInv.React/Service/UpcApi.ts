@@ -78,6 +78,26 @@ export class UpcApi
         this.m_apiInterop = new WebApiInterop(sApiRoot);
     }
 
+    async QueryBookScanInfos(
+        TitleSubstring: string,
+        AuthorSubstring: string,
+        SeriesSubstring: string,
+        SummarySubstring: string): Promise<UIR_BookInfoList>
+    {
+        var scanInfo: UIR_BookInfoList;
+
+        scanInfo = await this.m_apiInterop.Fetch<UIR_BookInfoList>(
+            "api/book/QueryBookScanInfos",
+            [
+                { "Title": TitleSubstring },
+                { "Author": AuthorSubstring },
+                { "Series": SeriesSubstring },
+                { "Summary": SummarySubstring }
+            ]);
+
+        return scanInfo;
+    }
+
     async GetBookScanInfo(ScanCode: string): Promise<UIR_BookInfo>
     {
         var scanInfo: UIR_BookInfo;
