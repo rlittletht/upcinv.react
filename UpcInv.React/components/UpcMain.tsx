@@ -50,8 +50,12 @@ export class UpcMain extends React.Component<UpcMainProps>
     }
 
     // When a new item is selected, show additional information about it
-    itemSelected = (event) => {
-        this.setState({ Item: event });
+    itemSelected = async (event) => {
+        // Lookup item before setting it to state
+        var item: UpcItemModel.GenericItem = new UpcItemModel.GenericItem(this.m_upcApi);
+        await item.Lookup(event.Code);
+
+        this.setState({ Item: item.Data });
         this.setState({ ShowPanel: true });
     }
 
@@ -65,7 +69,7 @@ export class UpcMain extends React.Component<UpcMainProps>
             return (<div>Empty</div>);
 
         var items = [];
-
+        
         for (let i: number = 0; i < this.state.Results.length; i++)
         {
             let item: UpcItemModel.IItem = this.state.Results[i];
@@ -75,9 +79,8 @@ export class UpcMain extends React.Component<UpcMainProps>
             items={items}
             columns={[
                 { key: 'column1', name: 'Title', fieldName: 'Title', minWidth: 100, maxWidth: 200, isResizable: true },
-                { key: 'column2', name: 'Author', fieldName: 'Author', minWidth: 100, maxWidth: 200, isResizable: true },
-                { key: 'column3', name: 'Series', fieldName: 'Series', minWidth: 100, maxWidth: 200, isResizable: true },
-                { key: 'column4', name: 'Scan Code', fieldName: 'Code', minWidth: 100, maxWidth: 200, isResizable: true },
+                { key: 'column2', name: 'Location', fieldName: 'Location', minWidth: 100, maxWidth: 200, isResizable: true },
+                { key: 'column3', name: 'Scan Code', fieldName: 'Code', minWidth: 100, maxWidth: 200, isResizable: true },
             ]}
             onActiveItemChanged={this.itemSelected}
             selectionMode={SelectionMode.single}
