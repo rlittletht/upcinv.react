@@ -1,14 +1,14 @@
 {
-    "compilerOptions": 
-    {
-        "noImplicitAny": false,
-        "module": "commonjs",
-        "noEmitOnError": true,
-        "removeComments": false,
-        "target": "es6",
-        "sourceMap": true,
-        "jsx": "react"
-    },
+  "compilerOptions": {
+    "noImplicitAny": false,
+    "module": "commonjs",
+    "noEmitOnError": true,
+    "removeComments": false,
+    "target": "es6",
+    "sourceMap": true,
+    "jsx": "react",
+    "allowSyntheticDefaultImports":  true
+  },
     "exclude": 
     [
         "node_modules"
