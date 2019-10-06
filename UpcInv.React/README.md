@@ -6,6 +6,9 @@ You will need to have installed NodeJs on your machine. Once that is there, you 
 
 To run the server locally without hooking up a debugger, just use `npm start`. This will start listening on http://localhost:3000.
 
+If you want to automatically recompile changes as you make them, use `start npm run-script watch`. This will build the project and watch files. Use `start` because the watch will leave the process running. After this, you can invoke using `npm start` or debug with the below instructions for debugging.
+
+
 Make any changes you want and rebuild the bundle.js (use F7 in Visual Studio), then just refresh in your browser and everything is done.
 
 ##Debugging
