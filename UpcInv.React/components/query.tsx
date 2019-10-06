@@ -78,15 +78,19 @@ export namespace QueryView
         }
 
         async BookQuery() {
-            var query: BookQuery = {
+            var query: BookQuery =
+            {
                 Author: this.state.queryAuthor,
                 ScanCode: this.state.queryScanCode,
-                Series: this.state.querySeries, 
+                Series: this.state.querySeries,
                 Title: this.state.queryTitle,
                 Summary: this.state.querySummary,
             }
 
-            if (query.ScanCode === "") {
+            this.m_setResults([]);
+
+            if (query.ScanCode === "") 
+            {
                 let scanInfo: UIR_BookInfoExList = await this.m_upcApi.QueryBookScanInfos(query);
 
                 let newResults: UpcItemModel.IItem[] = [];
@@ -97,7 +101,8 @@ export namespace QueryView
                 this.m_setResults(newResults);
                 return true;
             }
-            else {
+            else 
+            {
                 let scanInfo: UIR_BookInfoEx = await this.m_upcApi.GetFullBookScanInfo(this.state.queryScanCode);
 
                 let newResults: UpcItemModel.IItem[] =
