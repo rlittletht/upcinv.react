@@ -21,6 +21,8 @@
 !/*/dist/*.js
 !/*/dist/*.js.map
 !webpack-config.js
+!/*/server.js
+!/*/server.js.map
 
 # Build results
 [Dd]ebug/

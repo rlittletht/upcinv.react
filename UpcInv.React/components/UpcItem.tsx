@@ -1,7 +1,6 @@
 ﻿
 import { UpcItemModel } from "../model/UpcItem";
-
-var React = require('react');
+import * as React from 'react';
 
 export namespace UpcItemView
 {
@@ -15,9 +14,9 @@ export namespace UpcItemView
         render()
         {
             return (<div>
-                        Item ID: {this.props.ID} <br/>
-                        Item Title: {this.props.Title}
-                    </div>
+                Item ID: {this.props.ID} <br/>
+                Item Title: {this.props.Title}
+                </div>
             );
         }
     }
