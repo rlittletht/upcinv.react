@@ -20,5 +20,9 @@ You will have to debug using the debugger in the browser. When the page has load
 
 If you go the debugger tab, you should see two folders, localhost:1337, and (no domain). (no domain) is your executing code.. Open that up and you should see all of your typescript code (app.tsx, components\*.ts, etc). Open those up and set breakpoints as desired.
 
+### Refreshing page while debugging
+
+REMEMBER, don't use `F5` to reload the page when you make edits to the file -- you need to go to the address bar and hit `ENTER` to reload the page. (`CTRL+F5` might work too)
+
 # Notes 
 Switching from "var React = require('react')" seems to fix the jsx type errors that including Fabric UI introduced 
