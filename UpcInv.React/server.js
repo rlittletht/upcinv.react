@@ -11,7 +11,9 @@ var virtualDir = '';
 var ichVirtualDir;
 if ((ichVirtualDir = curDir.indexOf('wwwroot')) != -1
     && ichVirtualDir + 7 /* 7 == 'wwwroot'.length */ != curDir.length) {
-    virtualDir = curDir.slice(ichVirtualDir + 7, curDir.length - ichVirtualDir - 7);
+    virtualDir = curDir.slice(ichVirtualDir + 7);
+    if (Path.sep == '\\')
+        virtualDir = virtualDir.replace('\\', '/');
 }
 var staticPath = Path.join(__dirname, '/');
 appExpress.use(virtualDir + '/', Express.static(staticPath));
