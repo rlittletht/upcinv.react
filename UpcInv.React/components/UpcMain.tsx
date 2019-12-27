@@ -41,7 +41,7 @@ export class UpcMain extends React.Component<UpcMainProps>
     {
         this.m_model = new UpcInvModel.UpcInvMain(this.m_upcApi);
 
-        await this.m_model.fillMockData(this.setResults);
+        // await this.m_model.fillMockData(this.setResults);
     }
 
     async setResults(newResults: Array<UpcItemModel.IItem>)
@@ -50,7 +50,8 @@ export class UpcMain extends React.Component<UpcMainProps>
     }
 
     // When a new item is selected, show additional information about it
-    itemSelected = async (event) => {
+    itemSelected = async (event) =>
+    {
         // Lookup item before setting it to state
         var item: UpcItemModel.GenericItem = new UpcItemModel.GenericItem(this.m_upcApi);
         await item.Lookup(event.Code);
@@ -59,7 +60,8 @@ export class UpcMain extends React.Component<UpcMainProps>
         this.setState({ ShowPanel: true });
     }
 
-    panelClose = () => {
+    panelClose = () =>
+    {
         this.setState({ ShowPanel: false });
     }
 

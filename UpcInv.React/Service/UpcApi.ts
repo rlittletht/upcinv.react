@@ -54,6 +54,17 @@ export interface WineInfo
     LastScan: Date;
 }
 
+export interface BookQuery
+{
+    ScanCode: string;
+    Title: string;
+    Author: string;
+    Series: string;
+    Summary: string;
+    ShouldQuerySinceDate: boolean;
+    SinceDate: Date;
+}
+
 export interface UIR_ScanInfo extends TUpcInvResult<ScanInfo> { }
 
 export interface UIR_DvdInfo extends TUpcInvResult<DvdInfo> { }
@@ -99,16 +110,33 @@ export class UpcApi {
         return scanInfo;
     }
 
-    async QueryBookScanInfos(Query: QueryView.BookQuery): Promise<UIR_BookInfoExList> {
+    async QueryBookScanInfos(Query: BookQuery): Promise<UIR_BookInfoExList> {
         var scanInfo: UIR_BookInfoExList;
-        scanInfo = await this.m_apiInterop.Fetch<TUpcInvResult<BookInfoEx[]>>(
-            "api/book/QueryBookScanInfos",
-            [
-                { "Title": Query.Title },
-                { "Author": Query.Author },
-                { "Series": Query.Series },
-                { "Summary": Query.Summary },
-            ]);
+
+        // there are two api's, switched by whether there is a SinceDate
+        if (Query.ShouldQuerySinceDate)
+        {
+            scanInfo = await this.m_apiInterop.Fetch<TUpcInvResult<BookInfoEx[]>>(
+                "api/book/QueryBookScanInfosSince",
+                [
+                    { "Title": Query.Title },
+                    { "Author": Query.Author },
+                    { "Series": Query.Series },
+                    { "Summary": Query.Summary },
+                    { "SinceDate": Query.SinceDate.toISOString() }
+                ]);
+        }
+        else
+        {
+            scanInfo = await this.m_apiInterop.Fetch<TUpcInvResult<BookInfoEx[]>>(
+                "api/book/QueryBookScanInfos",
+                [
+                    { "Title": Query.Title },
+                    { "Author": Query.Author },
+                    { "Series": Query.Series },
+                    { "Summary": Query.Summary },
+                ]);
+        }
         return scanInfo;
     }
 }

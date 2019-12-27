@@ -1,7 +1,7 @@
-﻿import { UIR_BookInfoEx, BookInfo, UIR_BookInfoExList, UpcApi } from "../Service/UpcApi";
+﻿import { UIR_BookInfoEx, BookInfo, UIR_BookInfoExList, UpcApi, BookQuery } from "../Service/UpcApi";
 import { UpcItemModel } from "../model/UpcItem";
 import { SetResultsCallback } from "../model/UpcInv";
-import { DefaultButton, TextField, Stack, Pivot, PivotItem, PivotLinkSize, Checkbox } from 'office-ui-fabric-react';
+import { DefaultButton, TextField, Stack, Pivot, PivotItem, PivotLinkSize, Checkbox, Toggle, DatePicker } from 'office-ui-fabric-react';
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
 
@@ -13,21 +13,22 @@ export namespace QueryView
         SetResults: SetResultsCallback;
     }
 
-    export interface BookQuery {
-        ScanCode: string;
-        Title: string;
-        Author: string;
-        Series: string;
-        Summary: string;
-    }
-
     export class Query extends React.Component<QueryView.Props>
     {
         private m_upcApi: UpcApi;
         private m_setResults: SetResultsCallback;
 
         // don't want value of the textfields to be null
-        state = { queryScanCode: "", queryTitle: "", queryAuthor: "", querySeries: "", querySummary: "", seachDetails: false };
+        state = {
+            queryScanCode: "",
+            queryTitle: "",
+            queryAuthor: "",
+            querySeries: "",
+            querySummary: "",
+            seachDetails: false,
+            sinceChecked: false,
+            sinceDate: new Date()
+        };
 
         constructor(props: QueryView.Props)
         {
@@ -66,6 +67,16 @@ export namespace QueryView
             this.setState({ querySummary: event.target.value });
         }
 
+        updateSinceChecked = (event, checked: boolean) =>
+        {
+            this.setState({ sinceChecked: checked });
+        }
+
+        updateSinceDate = (sinceDate: Date) =>
+        {
+            this.setState({ sinceDate: sinceDate });
+        }
+
         async DoQuery()
         {
             let scanInfo: UIR_BookInfoEx = await this.m_upcApi.GetFullBookScanInfo(this.state.queryScanCode);
@@ -85,6 +96,8 @@ export namespace QueryView
                 Series: this.state.querySeries,
                 Title: this.state.queryTitle,
                 Summary: this.state.querySummary,
+                ShouldQuerySinceDate: this.state.sinceChecked,
+                SinceDate: this.state.sinceDate
             }
 
             this.m_setResults([]);
@@ -144,6 +157,20 @@ export namespace QueryView
                                 </span>
                                 <span>
                                     <TextField label="Summary:" id="querySummary" value={this.state.querySummary} type="string" onChange={this.updateQuerySummary} />
+                                </span>
+                                <span>
+                                    <Toggle label="Date Filter" onText="On" offText="Off" inlineLabel checked={this.state.sinceChecked} onChange={this.updateSinceChecked} />
+                                </span>
+                                <span>
+                                    <DatePicker 
+                                        disabled={!this.state.sinceChecked}
+                                        isRequired={false}
+                                        allowTextInput={true}
+                                        value={this.state.sinceDate}
+                                        onSelectDate={this.updateSinceDate}
+
+                                    />
+
                                 </span>
                             </Stack>
                             <br />
