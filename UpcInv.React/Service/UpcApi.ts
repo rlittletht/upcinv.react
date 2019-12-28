@@ -65,6 +65,14 @@ export interface BookQuery
     SinceDate: Date;
 }
 
+export interface DvdQuery
+{
+    Title: string;
+    Summary: string;
+    ShouldQuerySinceDate: boolean;
+    SinceDate: Date;
+}
+
 export interface UIR_ScanInfo extends TUpcInvResult<ScanInfo> { }
 
 export interface UIR_DvdInfo extends TUpcInvResult<DvdInfo> { }
@@ -137,6 +145,19 @@ export class UpcApi {
                     { "Summary": Query.Summary },
                 ]);
         }
+        return scanInfo;
+    }
+
+    async GetDvdScanInfosFromTitle(Query: DvdQuery): Promise<UIR_DvdInfoList>
+    {
+        var scanInfo: UIR_DvdInfoList;
+
+        scanInfo = await this.m_apiInterop.Fetch<TUpcInvResult<DvdInfo[]>>(
+            "api/dvd/GetDvdScanInfosFromTitle",
+            [
+                { "Title": Query.Title },
+            ]);
+
         return scanInfo;
     }
 }
