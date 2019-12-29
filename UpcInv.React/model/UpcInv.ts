@@ -33,11 +33,11 @@ export namespace UpcInvModel
             var item: UpcItemModel.GenericItem;
 
             item = new UpcItemModel.GenericItem(this.m_upcApi);
-            await item.Lookup("9780439101363");
+            await item.Lookup("9780439101363", "book");
             this.m_items.push(item);
 
             item = new UpcItemModel.GenericItem(this.m_upcApi);
-            await item.Lookup("9780394858180");
+            await item.Lookup("9780394858180", "book");
             this.m_items.push(item);
 
             this.m_itemRev++;

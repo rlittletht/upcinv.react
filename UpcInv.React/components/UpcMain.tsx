@@ -54,7 +54,7 @@ export class UpcMain extends React.Component<UpcMainProps>
     {
         // Lookup item before setting it to state
         var item: UpcItemModel.GenericItem = new UpcItemModel.GenericItem(this.m_upcApi);
-        await item.Lookup(event.Code);
+        await item.Lookup(event.ID, event.Type);
 
         this.setState({ Item: item.Data });
         this.setState({ ShowPanel: true });
@@ -75,7 +75,7 @@ export class UpcMain extends React.Component<UpcMainProps>
         for (let i: number = 0; i < this.state.Results.length; i++)
         {
             let item: UpcItemModel.IItem = this.state.Results[i];
-            items.push(item.Data);
+            items.push(item);
         }
         return (<DetailsList
             items={items}
@@ -87,6 +87,14 @@ export class UpcMain extends React.Component<UpcMainProps>
             onActiveItemChanged={this.itemSelected}
             selectionMode={SelectionMode.single}
         />);
+    }
+
+    IsValidItem(item) : boolean
+    {
+        if (item)
+            return true;
+
+        return false;
     }
 
     render()
@@ -106,44 +114,44 @@ export class UpcMain extends React.Component<UpcMainProps>
                 >
                     <Label>Title
                         <br/>
-                        <Text> {this.state.Item ? this.state.Item.Title : null} </Text>
+                        <Text> { this.IsValidItem(this.state.Item) ? this.state.Item.Title : null} </Text>
                     </Label>
                     <Label>Author
                         <br />
-                        <Text> {this.state.Item ? this.state.Item.Author : null} </Text>
+                        <Text> {this.IsValidItem(this.state.Item) ? this.state.Item.Author : null} </Text>
                     </Label>
                     <Label>Series
                         <br />
-                        <Text> {this.state.Item ? this.state.Item.Series : null} </Text>
+                        <Text> {this.IsValidItem(this.state.Item) ? this.state.Item.Series : null} </Text>
                     </Label>
                     <Label>Release Date
                         <br />
-                        <Text> {this.state.Item ? new Date(this.state.Item.ReleaseDate).toDateString() : null} </Text>
+                        <Text> {this.IsValidItem(this.state.Item) ? new Date(this.state.Item.ReleaseDate).toDateString() : null} </Text>
                     </Label>
                     <Label>First Scan
                         <br />
-                        <Text> {this.state.Item ? new Date(this.state.Item.FirstScan).toDateString() : null} </Text>
+                        <Text> {this.IsValidItem(this.state.Item) ? new Date(this.state.Item.FirstScan).toDateString() : null} </Text>
                     </Label>
                     <Label>Last Scan
                         <br />
-                        <Text> {this.state.Item ? new Date(this.state.Item.LastScan).toDateString() : null} </Text>
+                        <Text> {this.IsValidItem(this.state.Item) ? new Date(this.state.Item.LastScan).toDateString() : null} </Text>
                     </Label>
                     <Label>Location
                         <br />
-                        <Text> {this.state.Item ? this.state.Item.Location : null} </Text>
+                        <Text> {this.IsValidItem(this.state.Item) ? this.state.Item.Location : null} </Text>
                     </Label>
                     <Label>Summary
                         <br />
-                        <Text> {this.state.Item ? this.state.Item.Summary : null} </Text>
+                        <Text> {this.IsValidItem(this.state.Item) ? this.state.Item.Summary : null} </Text>
                     </Label>
                     <Label>Scan Code
                         <br />
-                        <Text> {this.state.Item ? this.state.Item.Code : null} </Text>
+                        <Text> {this.IsValidItem(this.state.Item) ? this.state.Item.Code : null} </Text>
                     </Label>
                     <Label>Cover
                         <br />
                         <Image
-                            src={this.state.Item ? this.state.Item.CoverSrc : null}
+                            src={this.IsValidItem(this.state.Item) ? this.state.Item.CoverSrc : null}
                         />
                     </Label>
                 </Panel>

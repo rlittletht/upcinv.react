@@ -99,7 +99,7 @@ export namespace QueryView
                 let newResults: UpcItemModel.IItem[] = [];
                 scanInfo.TheValue.forEach((val) =>
                 {
-                    newResults.push(UpcItemModel.GenericItem.CreateFromValues(val.Code, val.Title, val));
+                    newResults.push(UpcItemModel.GenericItem.CreateFromValues(val.Code, val.Title, "book", val));
                 });
 
                 this.m_setResults(newResults);
@@ -113,6 +113,7 @@ export namespace QueryView
                 [
                     UpcItemModel.GenericItem.CreateFromValues(scanInfo.TheValue.Code,
                         scanInfo.TheValue.Title,
+                        "book",
                         scanInfo.TheValue)
                 ];
 
@@ -138,7 +139,7 @@ export namespace QueryView
             let newResults: UpcItemModel.IItem[] = [];
             scanInfo.TheValue.forEach((val) =>
             {
-                newResults.push(UpcItemModel.GenericItem.CreateFromValues(val.Code, val.Title, val));
+                newResults.push(UpcItemModel.GenericItem.CreateFromValues(val.Code, val.Title, "dvd", val));
             });
 
             this.m_setResults(newResults);

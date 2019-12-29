@@ -26,6 +26,14 @@ export interface DvdInfo
     LastScan: Date;
 }
 
+export interface DvdInfoEx extends DvdInfo
+{
+    Summary: string;
+    MediaType: string;
+    Classification: string;
+    CoverSrc: string;
+}
+
 export interface BookInfo
 {
     Code: string;
@@ -76,6 +84,8 @@ export interface DvdQuery
 export interface UIR_ScanInfo extends TUpcInvResult<ScanInfo> { }
 
 export interface UIR_DvdInfo extends TUpcInvResult<DvdInfo> { }
+
+export interface UIR_DvdInfoEx extends TUpcInvResult<DvdInfoEx> { }
 
 export interface UIR_DvdInfoList extends TUpcInvResult<DvdInfo[]> { }
 
@@ -160,4 +170,16 @@ export class UpcApi {
 
         return scanInfo;
     }
+
+    async GetFullDvdScanInfo(ScanCode: string): Promise<UIR_DvdInfoEx>
+    {
+        var scanInfo: UIR_DvdInfoEx;
+
+        scanInfo = await this.m_apiInterop.Fetch<TUpcInvResult<DvdInfoEx>>(
+            "api/dvd/GetFullDvdScanInfo",
+            [{ "ScanCode": ScanCode }]);
+
+        return scanInfo;
+    }
+
 }
