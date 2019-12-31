@@ -97,6 +97,17 @@ export class UpcMain extends React.Component<UpcMainProps>
         return false;
     }
 
+    RenderItem(item, field): boolean
+    {
+        if (!item)
+            return false;
+
+        if (item[field] && item[field] != null && item[field] !== "")
+            return true;
+
+        return false;
+    }
+
     render()
     {
         return (
@@ -116,15 +127,27 @@ export class UpcMain extends React.Component<UpcMainProps>
                         <br/>
                         <Text> { this.IsValidItem(this.state.Item) ? this.state.Item.Title : null} </Text>
                     </Label>
-                    <Label>Author
+                    <Label
+                        style={{
+                            display: this.RenderItem(this.state.Item, "Author") ? "block" : "none"
+                        }}>
+                        Author
                         <br />
                         <Text> {this.IsValidItem(this.state.Item) ? this.state.Item.Author : null} </Text>
                     </Label>
-                    <Label>Series
+                    <Label
+                        style={{
+                            display: this.RenderItem(this.state.Item, "Series") ? "block" : "none"
+                        }}>
+                        Series
                         <br />
                         <Text> {this.IsValidItem(this.state.Item) ? this.state.Item.Series : null} </Text>
                     </Label>
-                    <Label>Release Date
+                    <Label
+                        style={{
+                            display: this.RenderItem(this.state.Item, "ReleaseDate") ? "block" : "none"
+                        }}>
+                        Release Date
                         <br />
                         <Text> {this.IsValidItem(this.state.Item) ? new Date(this.state.Item.ReleaseDate).toDateString() : null} </Text>
                     </Label>
@@ -136,19 +159,31 @@ export class UpcMain extends React.Component<UpcMainProps>
                         <br />
                         <Text> {this.IsValidItem(this.state.Item) ? new Date(this.state.Item.LastScan).toDateString() : null} </Text>
                     </Label>
-                    <Label>Location
+                    <Label
+                        style={{
+                            display: this.RenderItem(this.state.Item, "Location") ? "block" : "none"
+                        }}>
+                        Location
                         <br />
                         <Text> {this.IsValidItem(this.state.Item) ? this.state.Item.Location : null} </Text>
                     </Label>
-                    <Label>Summary
+                    <Label
+                        style={{
+                            display: this.RenderItem(this.state.Item, "Summary") ? "block" : "none"
+                        }}>
+                        Summary
                         <br />
-                        <Text> {this.IsValidItem(this.state.Item) ? this.state.Item.Summary : null} </Text>
+                        <span style={{ whiteSpace: "pre-line" }}><Text>{this.IsValidItem(this.state.Item) ? this.state.Item.Summary : null}</Text></span>
                     </Label>
                     <Label>Scan Code
                         <br />
                         <Text> {this.IsValidItem(this.state.Item) ? this.state.Item.Code : null} </Text>
                     </Label>
-                    <Label>Cover
+                    <Label
+                        style={{
+                            display: this.RenderItem(this.state.Item, "CoverSrc") ? "block" : "none"
+                        }}>
+                        Cover
                         <br />
                         <Image
                             src={this.IsValidItem(this.state.Item) ? this.state.Item.CoverSrc : null}
