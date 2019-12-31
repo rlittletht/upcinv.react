@@ -162,7 +162,7 @@ export namespace QueryView
                 <div>
                     <Pivot linkSize={PivotLinkSize.large}>
                         <PivotItem headerText="Book">
-                            <Stack horizontal wrap tokens={{ childrenGap: 20 }} styles={{ root: { marginTop: 20 } }}>
+                            <Stack horizontal wrap tokens={{  }} styles={{ root: {  } }}>
                                 <span>
                                     <TextField label="Scan Code:" id="queryScanCode" value={this.state.queryScanCode} type="string" onChange={this.updateQueryScanCode} />
                                 </span>
@@ -196,7 +196,7 @@ export namespace QueryView
                             <br />
                         </PivotItem>
                         <PivotItem headerText="DVD">
-                            <Stack horizontal wrap tokens={{ childrenGap: 20 }} styles={{ root: { marginTop: 20 } }}>
+                            <Stack horizontal wrap tokens={{  }} styles={{ root: {  } }}>
                                 <span>
                                     <TextField label="Title:" id="queryTitle" value={this.state.queryTitle} type="string" onChange={this.updateQueryTitle} />
                                 </span>
