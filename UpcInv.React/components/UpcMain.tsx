@@ -34,6 +34,7 @@ export class UpcMain extends React.Component<UpcMainProps>
         // bind *this* to setResults method so we capture the right context for the method
         // (so we can avoid having to do (newResults)=>{this.setResults(newResults) everywhere
         this.setResults = this.setResults.bind(this);
+
         initializeIcons();
     }
 
@@ -107,7 +108,7 @@ export class UpcMain extends React.Component<UpcMainProps>
 
         return false;
     }
-
+    
     render()
     {
         return (
