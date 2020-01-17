@@ -158,6 +158,21 @@ export class UpcApi {
         return scanInfo;
     }
 
+    async QueryDvdScanInfos(Query: DvdQuery): Promise<UIR_DvdInfoList>
+    {
+        var scanInfo: UIR_DvdInfoList;
+
+        // there are two api's, switched by whether there is a SinceDate
+        scanInfo = await this.m_apiInterop.Fetch<TUpcInvResult<DvdInfo[]>>(
+            "api/dvd/QueryDvdScanInfos",
+            [
+                { "Title": Query.Title },
+                { "Summary": Query.Summary },
+                { "Since": Query.ShouldQuerySinceDate ? Query.SinceDate.toISOString() : "" }
+            ]);
+        return scanInfo;
+    }
+
     async GetDvdScanInfosFromTitle(Query: DvdQuery): Promise<UIR_DvdInfoList>
     {
         var scanInfo: UIR_DvdInfoList;
