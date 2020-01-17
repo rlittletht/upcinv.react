@@ -2,6 +2,7 @@
 import fetch from 'cross-fetch';
 import { WebApiInterop } from "../Service/WebApiInterop";
 import { UpcApi, BookInfo, UIR_BookInfoEx, DvdInfo, UIR_DvdInfo, DvdInfoEx, UIR_DvdInfoEx } from "../Service/UpcApi";
+var htmlencode = require('html-encoder-decoder');
 
 export namespace UpcItemModel
 {
@@ -71,6 +72,26 @@ export namespace UpcItemModel
             return newItem;
         }
 
+        static ConvertFormattedSQLString(sRaw: string): string
+        {
+            // first, double all CR
+            sRaw = sRaw.replace(/\x0d\x0a/g, "\n");
+            sRaw = sRaw.replace(/\n/g, "\n\n");
+
+            // now, remove any triples and collapse to double (do this twice to get quadrupled)
+            sRaw = sRaw.replace(/\n\n\n/g, "\n\n");
+            sRaw = sRaw.replace(/\n\n\n/g, "\n\n");
+
+            // now we have to get rid of HTML NCR's
+
+            // first, &#10 becomes a CR
+            sRaw = sRaw.replace(/&#10;/, "\n");
+
+            // and replace the rest
+            return htmlencode.decode(sRaw);
+
+        }
+
         async Lookup(id: string, type: string): Promise<boolean>
         {
             if (type === "book")
@@ -81,6 +102,11 @@ export namespace UpcItemModel
                 this.m_title = scanInfo.TheValue.Title;
                 this.m_data = scanInfo.TheValue;
 
+                if (this.m_data && this.m_data["Summary"])
+                {
+                    this.m_data["Summary"] = GenericItem.ConvertFormattedSQLString(this.m_data["Summary"]);
+                }
+                
                 return true;
             }
 
