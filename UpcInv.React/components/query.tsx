@@ -134,7 +134,7 @@ export namespace QueryView
 
             this.m_setResults([]);
 
-            let scanInfo: UIR_DvdInfoList = await this.m_upcApi.GetDvdScanInfosFromTitle(query);
+            let scanInfo: UIR_DvdInfoList = await this.m_upcApi.QueryDvdScanInfos(query);
 
             let newResults: UpcItemModel.IItem[] = [];
             scanInfo.TheValue.forEach((val) =>
