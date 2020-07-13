@@ -3,8 +3,10 @@
 import { UpcItemModel } from "./UpcItem";
 import { WebApiInterop } from "../Service/WebApiInterop";
 import { UpcApi } from "../Service/UpcApi";
+import { DiagnosticResult } from "../Service/UpcApi"
 
 export type SetResultsCallback = (newResults: Array<UpcItemModel.IItem>) => void;
+export type SetServiceStatusCallback = (serviceStatus: DiagnosticResult) => void;
 
 export namespace UpcInvModel
 {

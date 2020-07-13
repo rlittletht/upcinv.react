@@ -6,6 +6,7 @@
     <Name>UpcInv.React</Name>
     <RootNamespace>UpcInv.React</RootNamespace>
     <SaveNodeJsSettingsInProjectFile>True</SaveNodeJsSettingsInProjectFile>
+    <NodeExePath>C:\Program Files\nodejs\node.exe</NodeExePath>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -44,6 +45,9 @@
   <ItemGroup>
     <TypeScriptCompile Include="app.tsx" />
     <TypeScriptCompile Include="components\query.tsx">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="components\ServiceStatus.tsx">
       <SubType>Code</SubType>
     </TypeScriptCompile>
     <TypeScriptCompile Include="components\UpcItem.tsx">
