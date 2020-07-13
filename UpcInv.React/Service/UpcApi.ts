@@ -81,6 +81,12 @@ export interface DvdQuery
     SinceDate: Date;
 }
 
+export enum DiagnosticResult
+{
+    Unknown = -1,
+    ServiceRunning = 0,
+}
+
 export interface UIR_ScanInfo extends TUpcInvResult<ScanInfo> { }
 
 export interface UIR_DvdInfo extends TUpcInvResult<DvdInfo> { }
@@ -101,11 +107,23 @@ export interface UIR_WineInfo extends TUpcInvResult<WineInfo> { }
 
 export interface UIR_String extends TUpcInvResult<string> { }
 
+export interface UIR_DiagnosticResult extends TUpcInvResult<DiagnosticResult> { };
+
+
 export class UpcApi {
     private m_apiInterop: WebApiInterop;
 
     constructor(sApiRoot: string) {
         this.m_apiInterop = new WebApiInterop(sApiRoot);
+    }
+
+    async Heartbeat(): Promise<UIR_DiagnosticResult>
+    {
+        let heartbeat: UIR_DiagnosticResult = await this.m_apiInterop.Fetch<TUpcInvResult<DiagnosticResult>>(
+            "api/diagnostics/heartbeat",
+            []);
+
+        return heartbeat;
     }
 
     async GetBookScanInfo(ScanCode: string): Promise<UIR_BookInfo> {

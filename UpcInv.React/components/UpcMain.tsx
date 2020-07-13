@@ -6,6 +6,7 @@ import { QueryView } from "./query";
 import { UpcApi } from "../Service/UpcApi";
 import * as React from 'react';
 import { DetailsList, Panel, PanelType, initializeIcons, SelectionMode, Text, Label, Image } from 'office-ui-fabric-react';
+import { ServiceStatusView } from "./ServiceStatus";
 
 export class UpcMainHeader extends React.Component {
     render() {
@@ -114,6 +115,7 @@ export class UpcMain extends React.Component<UpcMainProps>
         return (
             <div>
                 <UpcMainHeader />
+                <ServiceStatusView.ServiceStatus ApiInterop={this.m_upcApi} />
                 <QueryView.Query ApiInterop={this.m_upcApi} SetResults={this.setResults}/>
                 <hr/>
                 {this.renderItemList()}
