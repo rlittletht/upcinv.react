@@ -24,7 +24,7 @@ export interface UpcMainProps
 export class UpcMain extends React.Component<UpcMainProps>
 {
     private m_model: UpcInvModel.UpcInvMain;
-    private m_upcApi: UpcApi = new UpcApi("//thetasoft2.azurewebsites.net/UpcApi");
+    private m_upcApi: UpcApi = new UpcApi("https://upcinv-api.azurewebsites.net");
 
     state = { Results: null, ShowPanel: false, Item: null };
 
